@@ -1,12 +1,12 @@
 import pandas as pd
 import numpy as np
+from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import MinMaxScaler
-
+import matplotlib.pyplot as plt
 
 def main():
     # Faz a leitura do arquivo
-    input_file = '0-Datasets/ClearDataHorse2.data'
+    input_file = '0-Datasets/ClearDataHorseModa.data'
     names = ['Cirurgia',
              'Idade',
              'NumeroHospital',
@@ -35,7 +35,10 @@ def main():
              'TipoLesao',
              'SubTipoLesao',
              'CodigoEspecifico',
+             'JogarFora',
+             'JogarFora1',
              'DadosPatologicos']
+
     features = ['Cirurgia',
              'Idade',
              'NumeroHospital',
@@ -58,41 +61,48 @@ def main():
              'ProteinaTotal',
              'AparenciaAbdominocentese',
              'ProteinaTotalAbdominocentese',
+             'Resultado',
              'LesaoCirurgica',
+             'LocalLesao',
              'TipoLesao',
+             'SubTipoLesao',
              'CodigoEspecifico',
              'DadosPatologicos']
-    target = 'Resultado'
+
+
     df = pd.read_csv(input_file,    # Nome do arquivo com dados
-                     names = names) # Nome das colunas                      
-    ShowInformationDataFrame(df,"Dataframe original")
+                     names = names) # Nome das colunas
+                 
+    #ShowInformationDataFrame(df,"Dataframe original")
 
-    # Separating out the features
-    x = df.loc[:, features].values
+    QntClasse = 3
+
+    SepClasses = pd.cut(df['Pulso'], bins=QntClasse)
+    print(SepClasses)
+
+    FreqAbs = SepClasses.value_counts().sort_index()
+
+    FreqAbs.sort_values()
+    print(FreqAbs)
+
+
+    plt.bar(FreqAbs.index.astype(str), FreqAbs.values)
+    plt.xlabel('Classes')
+    plt.ylabel('Frequência Absoluta')
     
-    # Separating out the target
-    y = df.loc[:,[target]].values
+    plt.show()
+    #Criando um dataframe para a idade
+    #dfi  = pd.DataFrame(df['TemperaturaRetal'], columns=['TemperaturaRetal'])
+    #ShowInformationDataFrame(dfi,"Dataframe Temperatura Retal")
 
-    # Z-score normalization
-    x_zcore = StandardScaler().fit_transform(x)
-    normalized1Df = pd.DataFrame(data = x_zcore, columns = features)
-    normalized1Df = pd.concat([normalized1Df, df[[target]]], axis = 1)
-    ShowInformationDataFrame(normalized1Df,"Dataframe Z-Score Normalized")
+    #bins = [35, 36.5, 37.5, ]
 
-    # Mix-Max normalization
-    x_minmax = MinMaxScaler().fit_transform(x)
-    normalized2Df = pd.DataFrame(data = x_minmax, columns = features)
-    normalized2Df = pd.concat([normalized2Df, df[[target]]], axis = 1)
-    ShowInformationDataFrame(normalized2Df,"Dataframe Min-Max Normalized")
-
-
-def ShowInformationDataFrame(df, message=""):
-    print(message+"\n")
-    print(df.info())
-    print(df.describe())
-    print(df.head(10))
-    print("\n") 
-
-
+#def ShowInformationDataFrame(df, message=""):
+        #print(message+"\n")
+        #print(df.info())
+        #print(df.describe())
+        #print(df.head(10))
+        #print("\n") 
+    
 if __name__ == "__main__":
     main()

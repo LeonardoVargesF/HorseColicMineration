@@ -27,10 +27,45 @@ def main():
              'ProteinaTotalAbdominocentese',
              'Resultado',
              'LesaoCirurgica',
+             'LocalLesao',
              'TipoLesao',
+             'SubTipoLesao',
+             'CodigoEspecifico',
+             'JogarFora',
+             'JogarFora1',
              'DadosPatologicos']
-    features = ['Idade','Pulso','Dor','Resultado','TipoLesao']
-    output_file = '0-Datasets/ClearDataHorse.data'
+
+    features = ['Cirurgia',
+             'Idade',
+             'NumeroHospital',
+             'TemperaturaRetal',
+             'Pulso',
+             'FrequenciaRespiratoria',
+             'TemperaturaExtremidades',
+             'PulsoPeriferico',
+             'MembranasMucosas',
+             'TempoRecargaCapilar',
+             'Dor',
+             'Peristaltismo',
+             'DistensaoAbdominal',
+             'SondaNasogastrica',
+             'RefluxoNasogastrico',
+             'PHRefluxoNasogastrico',
+             'ExameRetal',
+             'Abdome',
+             'VolumeCelulasEmbaladas',
+             'ProteinaTotal',
+             'AparenciaAbdominocentese',
+             'ProteinaTotalAbdominocentese',
+             'Resultado',
+             'LesaoCirurgica',
+             'LocalLesao',
+             'TipoLesao',
+             'SubTipoLesao',
+             'CodigoEspecifico',
+             'DadosPatologicos']
+
+    output_file = '0-Datasets/ClearDataHorseMode.data'
     input_file = '0-Datasets/horse-colic.data'
     df = pd.read_csv(input_file,         # Nome do arquivo com dados
                      sep = ' ',       
@@ -41,7 +76,7 @@ def main():
     df_original = df.copy()
     # Imprime as 15 primeiras linhas do arquivo
     print("PRIMEIRAS 15 LINHAS\n")
-    print(df.head(15))
+    print(df.head(100))
     print("\n")        
 
     # Imprime informações sobre dos dados
@@ -60,7 +95,7 @@ def main():
     print("\n")    
     
     columns_missing_value = df.columns[df.isnull().any()]
-    print(columns_missing_value)
+    print(columns_missing_value) #No terminal se refere ao "Index([...])"
     method = 'mode' # number or median or mean or mode
     
     for c in columns_missing_value:
