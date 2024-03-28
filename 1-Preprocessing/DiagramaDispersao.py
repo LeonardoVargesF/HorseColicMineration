@@ -1,8 +1,6 @@
 import pandas as pd
-import numpy as np
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
 
 def main():
     # Faz a leitura do arquivo
@@ -36,7 +34,6 @@ def main():
              'SubTipoLesao',
              'CodigoEspecifico',
              'DadosPatologicos']
-
     features = ['Cirurgia',
              'Idade',
              'NumeroHospital',
@@ -59,48 +56,24 @@ def main():
              'ProteinaTotal',
              'AparenciaAbdominocentese',
              'ProteinaTotalAbdominocentese',
-             'Resultado',
              'LesaoCirurgica',
              'LocalLesao',
              'TipoLesao',
              'SubTipoLesao',
              'CodigoEspecifico',
              'DadosPatologicos']
+    target = 'Resultado'
 
+    df = pd.read_csv(input_file, names=names)
 
-    df = pd.read_csv(input_file,    # Nome do arquivo com dados
-                     names = names) # Nome das colunas
-                 
-    #ShowInformationDataFrame(df,"Dataframe original")
-
-    QntClasse = 3
-
-    SepClasses = pd.cut(df['Pulso'], bins=QntClasse)
-    print(SepClasses)
-
-    FreqAbs = SepClasses.value_counts().sort_index()
-
-    FreqAbs.sort_values()
-    print(FreqAbs)
-
-
-    plt.bar(FreqAbs.index.astype(str), FreqAbs.values)
-    plt.xlabel('Classes')
-    plt.ylabel('Frequência Absoluta')
-    
+    # Plotando o gráfico de dispersão
+    plt.figure(figsize=(8, 6))
+    plt.scatter(df['Pulso'], df['Idade'])
+    plt.title("Gráfico de Dispersão: Idade vs. ExameRetal")
+    plt.xlabel("Idade")
+    plt.ylabel("ExameRetal")
+    plt.grid(True)
     plt.show()
-    #Criando um dataframe para a idade
-    #dfi  = pd.DataFrame(df['TemperaturaRetal'], columns=['TemperaturaRetal'])
-    #ShowInformationDataFrame(dfi,"Dataframe Temperatura Retal")
 
-    #bins = [35, 36.5, 37.5, ]
-
-#def ShowInformationDataFrame(df, message=""):
-        #print(message+"\n")
-        #print(df.info())
-        #print(df.describe())
-        #print(df.head(10))
-        #print("\n") 
-    
 if __name__ == "__main__":
     main()
